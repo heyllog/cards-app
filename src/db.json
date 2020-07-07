@@ -2,7 +2,7 @@
   "cards": [
     {
       "id": 0,
-      "balance": 2391,
+      "balance": 1293,
       "name": "Molly Hew",
       "date": "2020-12-23",
       "cvv": "100",
@@ -10,7 +10,7 @@
     },
     {
       "id": 1,
-      "balance": 13,
+      "balance": -7,
       "name": "Michael Jacobs",
       "date": "2021-12-23",
       "cvv": "101",

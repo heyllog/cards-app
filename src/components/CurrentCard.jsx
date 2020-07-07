@@ -6,15 +6,18 @@ import Buttons from './Buttons';
 import CardInfo from './CardInfo';
 import Loader from '../styles/Loader';
 
-const Info = styled.div`
-  display: flex;
-  width: 100%;
-  padding: 30px 40px;
-`;
-
 const CurrentCard = () => {
   let { id } = useParams();
   const cards = useSelector((state) => state.cards);
+
+  // TODO cancel
+  // // state request delete
+  //
+  // const navigate = useNavigate();
+  //
+  // useEffect(()=>{
+  //   if (IF_GOOD_DELETE) navigate('..');
+  // },[IF_GOOD_DELETE])
 
   // TODO добавить редирект
   return (
@@ -32,5 +35,11 @@ const CurrentCard = () => {
     </>
   );
 };
+
+const Info = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 30px 40px;
+`;
 
 export default CurrentCard;

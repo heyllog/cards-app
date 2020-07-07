@@ -69,6 +69,7 @@ function* workerTransactions(action) {
     });
     yield put(loadData());
   } finally {
+    // TODO где выкидывать cancel
     if (yield cancelled()) {
       controller.abort();
     }
@@ -84,6 +85,7 @@ function* workerDeleteData(action) {
       method: 'DELETE',
       signal: controller.signal,
     });
+    // true
     yield put(loadData());
   } finally {
     if (yield cancelled()) {
@@ -119,6 +121,7 @@ function* watchDeleteData() {
 function* watchTransactions() {
   while (true) {
     const bgSyncTask = yield takeLatest(NEW_TRANSACTION, workerTransactions);
+    // TODO могу ли я использовать один cancel для всех операций
     yield take(CANCEL_OPERATION);
     yield cancel(bgSyncTask);
   }

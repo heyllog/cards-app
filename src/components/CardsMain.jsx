@@ -1,8 +1,8 @@
 import React from 'react';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import CardList from './CardList';
 
-const Cards = () => {
+const CardsMain = () => {
   return (
     <>
       <CardList />
@@ -11,4 +11,4 @@ const Cards = () => {
   );
 };
 
-export default Cards;
+export default CardsMain;

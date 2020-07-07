@@ -1,22 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TransactionButton from './TransactionButton';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteCard, newTransaction } from '../store/reducers/cardReducer';
+import { useDispatch } from 'react-redux';
+import { deleteCard } from '../store/reducers/cardReducer';
 import { Link } from 'react-router-dom';
+import TransactionModal from './TransactionModal';
 
 const Buttons = ({ id }) => {
+  const [visible, setVisible] = useState(false);
   const dispatch = useDispatch();
-  const card = useSelector((state) => state.cards.data[id]);
-
-  const handleTransaction = () => {
-    const update = { data: { ...card }, id: id };
-    update.data.balance = Number(update.data.balance) - 10;
-    dispatch(newTransaction(update));
-  };
 
   return (
     <div>
-      <TransactionButton title='New Transaction' action={handleTransaction} />
+      {visible && <TransactionModal id={id} action={() => setVisible(!visible)} />}
+      <TransactionButton title='New Transaction' action={() => setVisible(!visible)} />
       <Link to='/'>
         <TransactionButton title='Delete card' action={() => dispatch(deleteCard(id))} />
       </Link>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addNewCard } from '../store/reducers/cardReducer';
-import { CloseButton } from '../styles/NewCard';
 
 const formValidation = (number, date, name, cvv, balance) => {
   try {
@@ -58,15 +57,14 @@ const Form = ({ handleVisible }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {/*TODO кнопка закрытия*/}
-      {/*<CloseButton*/}
-      {/*  onClick={(e) => {*/}
-      {/*    e.preventDefault();*/}
-      {/*    handleVisible(false);*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  &times;*/}
-      {/*</CloseButton>*/}
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          handleVisible();
+        }}
+      >
+        &times;
+      </button>
       <br />
       <label>
         Number:
@@ -89,9 +87,7 @@ const Form = ({ handleVisible }) => {
         <input type='text' onChange={(e) => setBalance(e.target.value)} />
       </label>
 
-      <button className='add-btn' type='submit'>
-        Add Card
-      </button>
+      <button type='submit'>Add Card</button>
     </form>
   );
 };

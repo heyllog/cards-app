@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { Global, css } from '@emotion/core';
-import Cards from './components/Cards';
-import CardApp from './styles/CardApp';
+import styled from "@emotion/styled";
 import { useRoutes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+
 import { cancelOperation, loadData } from './store/reducers/cardReducer';
+import CardsMain from './components/CardsMain';
 import CurrentCard from './components/CurrentCard';
 
 const GLOBAL = css`
@@ -20,6 +21,10 @@ const GLOBAL = css`
   body {
     background-color: #f9f9fd;
   }
+`;
+
+const CardApp = styled.div`
+  display: flex;
 `;
 
 // function Invoices() {
@@ -57,7 +62,7 @@ function App() {
   let routes = useRoutes([
     {
       path: '/',
-      element: <Cards />,
+      element: <CardsMain />,
       children: [{ path: ':id', element: <CurrentCard /> }],
     },
   ]);
