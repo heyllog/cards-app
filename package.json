@@ -7,7 +7,8 @@
     "dev": "NODE_ENV=development webpack-dev-server",
     "build": "NODE_ENV=production webpack",
     "format": "prettier --write src/**/*.{js,jsx}",
-    "lint": "eslint src/**/*.{js,jsx}"
+    "lint": "eslint src/**/*.{js,jsx}",
+    "server": "json-server ./src/db.json --watch --port 3001"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "eslint-plugin-react": "^7.20.1",
     "eslint-plugin-react-hooks": "^4.0.4",
     "html-webpack-plugin": "^4.3.0",
+    "json-server": "^0.16.1",
     "prettier": "^2.0.5",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
@@ -33,7 +35,6 @@
     "@babel/polyfill": "^7.10.4",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
-    "bootstrap": "^4.5.0",
     "history": "^5.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

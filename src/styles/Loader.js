@@ -2,6 +2,8 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const LoaderStyle = styled.div`
+  
+  
   .lds-dual-ring {
     display: inline-block;
     width: 80px;

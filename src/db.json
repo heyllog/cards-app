@@ -1,0 +1,20 @@
+{
+  "cards": [
+    {
+      "id": 0,
+      "balance": "2523$",
+      "name": "Molly Hew",
+      "date": "2020-12-23",
+      "cvv": "100",
+      "number": "5532 0132 4232 9842"
+    },
+    {
+      "id": 1,
+      "balance": "23$",
+      "name": "Michael Jacobs",
+      "date": "2021-12-23",
+      "cvv": "101",
+      "number": "5512 0388 4238 4390"
+    }
+  ]
+}
