@@ -1,36 +1,19 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import Loader from '../styles/Loader';
-import Info from '../styles/Info';
-import TransactionButton from './TransactionButton';
-import CardList from "./CardList";
+import styled from '@emotion/styled';
 
-const CardInfo = () => {
-  let { id } = useParams();
-  // TODO избыточные cards.data[id].number
-  const cards = useSelector((state) => state.cards);
+const CardInfoStyle = styled.div`
+  margin-right: auto;
+`;
 
+const CardInfo = ({ card }) => {
   return (
-    <>
-      {!cards.status ? (
-        <Loader />
-      ) : (
-        <Info>
-          <div className='card-info'>
-            <p>{`Number: ${cards.data[id].number}`}</p>
-            <p>{`Name: ${cards.data[id].name}`}</p>
-            <p>{`Date: ${cards.data[id].date}`}</p>
-            <p>{`CVV: ${cards.data[id].cvv}`}</p>
-            <p>{`Balance: ${cards.data[id].balance}`}</p>
-          </div>
-          <div className='buttons'>
-            <TransactionButton title='New Transaction' />
-            <TransactionButton title='Delete card' />
-          </div>
-        </Info>
-      )}
-    </>
+    <CardInfoStyle>
+      <p>{`Number: ${card.number}`}</p>
+      <p>{`Name: ${card.name}`}</p>
+      <p>{`Date: ${card.date}`}</p>
+      <p>{`CVV: ${card.cvv}`}</p>
+      <p>{`Balance: ${card.balance}`}</p>
+    </CardInfoStyle>
   );
 };
 

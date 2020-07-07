@@ -1,9 +1,9 @@
 import React from 'react';
 import Button from '../styles/Button';
 
-const TransactionButton = ({ title }) => {
+const TransactionButton = ({ title, action }) => {
   return (
-    <Button>
+    <Button onClick={action}>
       <div className='container'>
         <div className='left-side'>
           <div className='card'>

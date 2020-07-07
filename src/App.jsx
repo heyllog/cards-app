@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { Global, css } from '@emotion/core';
-import CardList from './components/CardList';
 import Cards from './components/Cards';
 import CardApp from './styles/CardApp';
-import { Route, Routes, useRoutes, Outlet, useParams } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { cancelLoadData, loadData } from './store/reducers/cardReducer';
-import CardInfo from "./components/CardInfo";
+import { cancelOperation, loadData } from './store/reducers/cardReducer';
+import CurrentCard from './components/CurrentCard';
 
 const GLOBAL = css`
   * {
@@ -51,23 +50,21 @@ function App() {
 
   useEffect(() => {
     dispatch(loadData());
-    return () => dispatch(cancelLoadData());
+    return () => dispatch(cancelOperation());
   }, [dispatch]);
 
+  // TODO /cards
   let routes = useRoutes([
     {
       path: '/',
       element: <Cards />,
-      children: [
-        { path: ':id', element: <CardInfo /> },
-      ],
+      children: [{ path: ':id', element: <CurrentCard /> }],
     },
   ]);
 
   return (
     <CardApp>
       <Global styles={GLOBAL} />
-
       {routes}
 
       {/*<Routes>*/}
@@ -76,7 +73,6 @@ function App() {
       {/*    <Route path="sent" element={<SentInvoices />} />*/}
       {/*  </Route>*/}
       {/*</Routes>*/}
-
     </CardApp>
   );
 }

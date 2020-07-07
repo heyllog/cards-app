@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import SideBar from '../styles/SideBar';
-import Card from '../styles/Card';
+import { Card, Number, Balance } from '../styles/Card';
 import { useSelector } from 'react-redux';
 import Loader from '../styles/Loader';
 import { Link } from 'react-router-dom';
@@ -18,8 +18,8 @@ const CardList = () => {
           {cards.data.map((card) => (
             <Link to={`${card.id}`} key={card.id}>
               <Card>
-                <p className='number'>{card.number}</p>
-                <p className='balance'>Balance: {card.balance}</p>
+                <Number>{card.number}</Number>
+                <Balance>Balance: {card.balance}</Balance>
               </Card>
             </Link>
           ))}

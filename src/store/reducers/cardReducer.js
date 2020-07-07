@@ -1,8 +1,10 @@
 export const LOAD_DATA = 'LOAD_DATA';
-export const CANCEL_LOAD_DATA = 'CANCEL_LOAD_DATA';
+export const CANCEL_OPERATION = 'CANCEL_LOAD_DATA';
 export const PUT_DATA = 'PUT_DATA';
 export const ADD_NEW_CARD = 'ADD_NEW_CARD';
 export const SET_STATUS = 'SET_STATUS';
+export const DELETE_CARD = 'DELETE_CARD';
+export const NEW_TRANSACTION = 'NEW_TRANSACTION';
 
 export const putData = (dataFromServer) => {
   return {
@@ -24,15 +26,29 @@ export const loadData = () => {
   };
 };
 
-export const cancelLoadData = () => {
+export const cancelOperation = () => {
   return {
-    type: CANCEL_LOAD_DATA,
+    type: CANCEL_OPERATION,
   };
 };
 
 export const addNewCard = (data) => {
   return {
     type: ADD_NEW_CARD,
+    payload: data,
+  };
+};
+
+export const deleteCard = (id) => {
+  return {
+    type: DELETE_CARD,
+    payload: id,
+  };
+};
+
+export const newTransaction = (data) => {
+  return {
+    type: NEW_TRANSACTION,
     payload: data,
   };
 };

@@ -1,11 +1,13 @@
 import { all, put, call, take, takeLatest, fork, cancel, cancelled } from 'redux-saga/effects';
 import {
   LOAD_DATA,
-  CANCEL_LOAD_DATA,
-  putData,
+  CANCEL_OPERATION,
+  DELETE_CARD,
   ADD_NEW_CARD,
+  NEW_TRANSACTION,
+  putData,
   setStatus,
-  addNewCard, loadData,
+  loadData,
 } from './reducers/cardReducer';
 
 function* workerLoadData() {
@@ -29,7 +31,6 @@ function* workerLoadData() {
   } finally {
     if (yield cancelled()) {
       controller.abort();
-      console.log('CANCEL');
     }
   }
 }
@@ -50,7 +51,43 @@ function* workerPostData(action) {
   } finally {
     if (yield cancelled()) {
       controller.abort();
-      console.log('CANCEL');
+    }
+  }
+}
+
+function* workerTransactions(action) {
+  const controller = new AbortController();
+  try {
+    yield put(setStatus(false));
+    yield call(fetch, 'http://localhost:3001/cards/' + action.payload.id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(action.payload.data),
+      signal: controller.signal,
+    });
+    yield put(loadData());
+  } finally {
+    if (yield cancelled()) {
+      controller.abort();
+    }
+  }
+}
+
+function* workerDeleteData(action) {
+  const controller = new AbortController();
+  console.log('deleteCard ' + action.payload);
+  try {
+    yield put(setStatus(false));
+    yield call(fetch, 'http://localhost:3001/cards/' + action.payload, {
+      method: 'DELETE',
+      signal: controller.signal,
+    });
+    yield put(loadData());
+  } finally {
+    if (yield cancelled()) {
+      controller.abort();
     }
   }
 }
@@ -58,7 +95,7 @@ function* workerPostData(action) {
 function* watchLoadData() {
   while (true) {
     const bgSyncTask = yield takeLatest(LOAD_DATA, workerLoadData);
-    yield take(CANCEL_LOAD_DATA);
+    yield take(CANCEL_OPERATION);
     yield cancel(bgSyncTask);
   }
 }
@@ -66,11 +103,32 @@ function* watchLoadData() {
 function* watchPostData() {
   while (true) {
     const bgSyncTask = yield takeLatest(ADD_NEW_CARD, workerPostData);
-    yield take(CANCEL_LOAD_DATA);
+    yield take(CANCEL_OPERATION);
+    yield cancel(bgSyncTask);
+  }
+}
+
+function* watchDeleteData() {
+  while (true) {
+    const bgSyncTask = yield takeLatest(DELETE_CARD, workerDeleteData);
+    yield take(CANCEL_OPERATION);
+    yield cancel(bgSyncTask);
+  }
+}
+
+function* watchTransactions() {
+  while (true) {
+    const bgSyncTask = yield takeLatest(NEW_TRANSACTION, workerTransactions);
+    yield take(CANCEL_OPERATION);
     yield cancel(bgSyncTask);
   }
 }
 
 export default function* rootSaga() {
-  yield all([fork(watchLoadData), fork(watchPostData)]);
+  yield all([
+    fork(watchLoadData),
+    fork(watchPostData),
+    fork(watchDeleteData),
+    fork(watchTransactions),
+  ]);
 }
