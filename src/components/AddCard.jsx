@@ -31,7 +31,7 @@ const CreateCard = styled.div`
   display: flex;
   flex-direction: column;
   width: 320px;
-  height: 200px;
+  height: 210px;
   margin: 20px auto;
   padding: 5px;
   border-radius: 10px;

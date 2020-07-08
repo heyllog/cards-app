@@ -63,22 +63,22 @@ const Form = ({ handleVisible }) => {
 
   return (
     <FormStyle onSubmit={handleSubmit}>
-      <button
+      <CloseButton
         onClick={(e) => {
           e.preventDefault();
           handleVisible();
         }}
       >
         &times;
-      </button>
+      </CloseButton>
       <br />
       <input type='text' placeholder='Number' onChange={(e) => setNumber(e.target.value)} />
       <input type='text' placeholder='Name' onChange={(e) => setName(e.target.value)} />
       <SmallInput type='text' placeholder='Expires' onChange={(e) => setDate(e.target.value)} />
       <SmallInput type='text' placeholder='CVV' onChange={(e) => setCvv(e.target.value)} />
       <SmallInput type='text' placeholder='Balance' onChange={(e) => setBalance(e.target.value)} />
-      // TODO redirect на новую карточку
-      <button type='submit'>Add Card</button>
+      {/*TODO redirect на новую карточку*/}
+      <AddButton type='submit'>Add Card</AddButton>
     </FormStyle>
   );
 };
@@ -86,17 +86,45 @@ const Form = ({ handleVisible }) => {
 const SmallInput = styled.input``;
 
 const FormStyle = styled.form`
+  position: relative;
+
   input {
-    margin: 5px;
+    margin: 0 5px 10px 5px;
     width: calc(100% - 10px);
     padding: 5px;
     border-radius: 5px;
     border: none;
+    outline: none;
   }
 
   ${SmallInput} {
     width: 93px;
   }
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: flex;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  font-size: 24px;
+`;
+
+const AddButton = styled.button`
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgb(58, 123, 213);
+  color: white;
+  margin: 0 5px;
+  width: calc(100% - 10px);
 `;
 
 export default Form;
