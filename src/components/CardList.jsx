@@ -1,28 +1,24 @@
 import React from 'react';
-import { Card, Number, Balance } from '../styles/Card';
-import { useSelector } from 'react-redux';
-import Loader from '../styles/Loader';
 import { Link } from 'react-router-dom';
-import AddCard from './AddCard';
+import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { NewCard } from '../styles/Card';
+
+import Loader from '../styles/Loader';
+import AddCard from './AddCard';
+import Card from './reusable/Card';
 
 const CardList = () => {
   const cards = useSelector((state) => state.cards);
 
   return (
     <SideBar>
-      <NewCard />
-      {!cards.status ? (
+      {!cards.readyToUse ? (
         <Loader />
       ) : (
         <>
           {cards.data.map((card) => (
             <Link to={`${card.id}`} key={card.id}>
-              <Card>
-                <Number>{card.number}</Number>
-                <Balance>Balance: {card.balance}$</Balance>
-              </Card>
+              <Card number={card.number} balance={card.balance} name={card.name} />
             </Link>
           ))}
           <AddCard />
@@ -37,6 +33,7 @@ const SideBar = styled.div`
   min-width: 350px;
   max-width: 350px;
   height: 100vh;
+  overflow: auto;
 
   a {
     text-decoration: none;

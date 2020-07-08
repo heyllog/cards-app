@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+
 import Form from './Form';
 
 const AddCard = () => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <NewCard>
+    <CreateCard>
       {visible ? (
         <Form handleVisible={() => setVisible(!visible)} />
       ) : (
         <OpenButton onClick={() => setVisible(!visible)}>+</OpenButton>
       )}
-    </NewCard>
+    </CreateCard>
   );
 };
 
@@ -26,7 +27,7 @@ const OpenButton = styled.button`
   font-size: 2rem;
 `;
 
-const NewCard = styled.div`
+const CreateCard = styled.div`
   display: flex;
   flex-direction: column;
   width: 320px;
@@ -35,9 +36,9 @@ const NewCard = styled.div`
   padding: 5px;
   border-radius: 10px;
   background-image: linear-gradient(
-    315deg,
-    rgba(126, 232, 250, 0.5) 0%,
-    rgba(128, 255, 114, 0.5) 74%
+    to right bottom,
+    rgba(58, 123, 213, 0.7),
+    rgba(58, 96, 115, 0.7)
   );
   box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
 `;

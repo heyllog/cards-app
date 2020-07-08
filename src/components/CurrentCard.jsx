@@ -1,32 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
+
 import Buttons from './Buttons';
 import CardInfo from './CardInfo';
 import Loader from '../styles/Loader';
+import { cancelAddNewCard } from '../store/reducers/cardReducer';
 
 const CurrentCard = () => {
-  let { id } = useParams();
+  const { id } = useParams();
   const cards = useSelector((state) => state.cards);
+  const [card, setCard] = useState(null);
+  const dispatch = useDispatch();
 
-  // TODO cancel
-  // // state request delete
-  //
-  // const navigate = useNavigate();
-  //
-  // useEffect(()=>{
-  //   if (IF_GOOD_DELETE) navigate('..');
-  // },[IF_GOOD_DELETE])
+  useEffect(() => {
+    if (cards.readyToUse) {
+      setCard(cards.data.find((card) => card.id === Number(id)));
+    }
+  }, [cards.readyToUse, cards.data, id]);
 
-  // TODO добавить редирект
+  useEffect(() => {
+    return () => dispatch(cancelAddNewCard());
+  }, [dispatch]);
+
   return (
     <>
-      {!cards.status ? (
+      {!cards.readyToUse ? (
         <Loader />
-      ) : cards.data[id] ? (
+      ) : card ? (
         <Info>
-          <CardInfo card={cards.data[id]} />
+          <CardInfo card={card} />
           <Buttons id={id} />
         </Info>
       ) : (

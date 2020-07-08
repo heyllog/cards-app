@@ -1,13 +1,17 @@
 import { all, put, call, take, takeLatest, fork, cancel, cancelled } from 'redux-saga/effects';
 import {
   LOAD_DATA,
-  CANCEL_OPERATION,
+  CANCEL_LOAD_DATA,
   DELETE_CARD,
   ADD_NEW_CARD,
   NEW_TRANSACTION,
+  CANCEL_ADD_NEW_CARD,
+  CANCEL_DELETE_CARD,
+  CANCEL_NEW_TRANSACTION,
   putData,
   setStatus,
   loadData,
+  setDeleted,
 } from './reducers/cardReducer';
 
 function* workerLoadData() {
@@ -21,12 +25,7 @@ function* workerLoadData() {
 
     if (response.ok) {
       const json = yield response.json();
-      yield put(
-        putData({
-          data: json,
-          status: true,
-        })
-      );
+      yield put(putData(json));
     }
   } finally {
     if (yield cancelled()) {
@@ -69,7 +68,6 @@ function* workerTransactions(action) {
     });
     yield put(loadData());
   } finally {
-    // TODO где выкидывать cancel
     if (yield cancelled()) {
       controller.abort();
     }
@@ -78,14 +76,13 @@ function* workerTransactions(action) {
 
 function* workerDeleteData(action) {
   const controller = new AbortController();
-  console.log('deleteCard ' + action.payload);
   try {
     yield put(setStatus(false));
     yield call(fetch, 'http://localhost:3001/cards/' + action.payload, {
       method: 'DELETE',
       signal: controller.signal,
     });
-    // true
+    yield put(setDeleted(action.payload));
     yield put(loadData());
   } finally {
     if (yield cancelled()) {
@@ -97,7 +94,7 @@ function* workerDeleteData(action) {
 function* watchLoadData() {
   while (true) {
     const bgSyncTask = yield takeLatest(LOAD_DATA, workerLoadData);
-    yield take(CANCEL_OPERATION);
+    yield take(CANCEL_LOAD_DATA);
     yield cancel(bgSyncTask);
   }
 }
@@ -105,7 +102,7 @@ function* watchLoadData() {
 function* watchPostData() {
   while (true) {
     const bgSyncTask = yield takeLatest(ADD_NEW_CARD, workerPostData);
-    yield take(CANCEL_OPERATION);
+    yield take(CANCEL_ADD_NEW_CARD);
     yield cancel(bgSyncTask);
   }
 }
@@ -113,7 +110,7 @@ function* watchPostData() {
 function* watchDeleteData() {
   while (true) {
     const bgSyncTask = yield takeLatest(DELETE_CARD, workerDeleteData);
-    yield take(CANCEL_OPERATION);
+    yield take(CANCEL_DELETE_CARD);
     yield cancel(bgSyncTask);
   }
 }
@@ -121,8 +118,7 @@ function* watchDeleteData() {
 function* watchTransactions() {
   while (true) {
     const bgSyncTask = yield takeLatest(NEW_TRANSACTION, workerTransactions);
-    // TODO могу ли я использовать один cancel для всех операций
-    yield take(CANCEL_OPERATION);
+    yield take(CANCEL_NEW_TRANSACTION);
     yield cancel(bgSyncTask);
   }
 }

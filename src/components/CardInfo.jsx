@@ -1,17 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Card } from '../styles/Card';
 
 const CardInfo = ({ card }) => {
   return (
     <CardInfoStyle>
-      <Card>
-        <p>{card.number}</p><br/>
-        <p>{`Name: ${card.name}`}</p>
-        <p>{`Date: ${card.date}`}</p>
-        <p>{`CVV: ${card.cvv}`}</p>
-        <p>{`Balance: ${card.balance}$`}</p>
-      </Card>
+      <p>{card.number}</p>
+      <br />
+      <p>{`Name: ${card.name}`}</p>
+      <p>{`Date: ${card.date}`}</p>
+      <p>{`CVV: ${card.cvv}`}</p>
+      <p>{`Balance: ${card.balance}$`}</p>
     </CardInfoStyle>
   );
 };

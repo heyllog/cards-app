@@ -1,7 +1,6 @@
 {
-  "name": "card-app",
+  "name": "cards-app",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server",
@@ -10,13 +9,13 @@
     "lint": "eslint src/**/*.{js,jsx}",
     "server": "json-server ./src/db.json --watch --port 3001"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.10.3",
     "@babel/preset-env": "^7.10.3",
     "@babel/preset-react": "^7.10.1",
     "babel-loader": "^8.1.0",
+    "babel-plugin-emotion": "^10.0.33",
     "css-loader": "^3.6.0",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",

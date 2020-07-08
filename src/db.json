@@ -4,17 +4,25 @@
       "id": 0,
       "balance": 1293,
       "name": "Molly Hew",
-      "date": "2020-12-23",
+      "date": "11/23",
       "cvv": "100",
-      "number": "5532 0132 4232 9842"
+      "number": "5532013242329842"
     },
     {
       "id": 1,
-      "balance": -7,
+      "balance": 1000,
       "name": "Michael Jacobs",
-      "date": "2021-12-23",
+      "date": "07/21",
       "cvv": "101",
-      "number": "5512 0388 4238 4390"
+      "number": "5512038842384390"
+    },
+    {
+      "id": 2,
+      "balance": 1690,
+      "name": "Michael Jacobs",
+      "date": "07/21",
+      "cvv": "101",
+      "number": "5512038842384390"
     }
   ]
 }

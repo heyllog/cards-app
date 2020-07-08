@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import { newTransaction } from '../store/reducers/cardReducer';
 const TransactionModal = ({ id, action }) => {
   const [count, setCount] = useState('');
   const [error, setError] = useState(false);
-  const card = useSelector((state) => state.cards.data[id]);
+  const card = useSelector((state) => state.cards.data.find((card) => card.id === Number(id)));
   const dispatch = useDispatch();
 
   const handleTransaction = (e) => {
