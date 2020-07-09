@@ -2,9 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const Card = ({ number, name, balance }) => {
-  const formattedNumber = `
-  ${number.slice(0, 4)} ${number.slice(4, 8)} ${number.slice(8, 12)} ${number.slice(12)}
-  `;
+  const formattedNumber = '**** **** **** ' + number.slice(12);
 
   return (
     <CardStyle>
@@ -23,7 +21,7 @@ const Card = ({ number, name, balance }) => {
           </div>
           <div className='card__space-25'>
             <span className='card__label'>Balance</span>
-            <p className='card__info'>{balance} $</p>
+            <p className='card__info'>{balance}$</p>
           </div>
         </div>
       </div>
@@ -41,7 +39,7 @@ const CardStyle = styled.div`
 
   .card {
     width: 320px;
-    height: 190px;
+    height: 210px;
     margin: 20px auto;
     perspective: 600px;
   }
@@ -52,7 +50,7 @@ const CardStyle = styled.div`
     left: 0;
     display: inline-block;
     width: 320px;
-    height: 190px;
+    height: 210px;
     z-index: 980;
     box-shadow: 1px 1px #aaa3a3;
     background-image: url('https://image.ibb.co/bVnMrc/g3095.png'),
@@ -99,17 +97,17 @@ const CardStyle = styled.div`
     letter-spacing: 2px;
     color: #fff;
     text-align: center;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-top: 30px;
   }
 
   .card__space-75 {
-    width: 75%;
+    width: 70%;
     float: left;
   }
 
   .card__space-25 {
-    width: 25%;
+    width: 30%;
     float: left;
   }
 

@@ -18,13 +18,15 @@ const AddCard = () => {
 };
 
 const OpenButton = styled.button`
-  width: 60px;
-  height: 60px;
+  width: 310px;
+  height: 200px;
   margin: auto;
   border: none;
   background-color: rgba(255, 255, 255, 0);
   color: white;
   font-size: 2rem;
+  outline: none;
+  cursor: pointer;
 `;
 
 const CreateCard = styled.div`
@@ -37,8 +39,8 @@ const CreateCard = styled.div`
   border-radius: 10px;
   background-image: linear-gradient(
     to right bottom,
-    rgba(58, 123, 213, 0.7),
-    rgba(58, 96, 115, 0.7)
+    rgba(58, 123, 213, 0.9),
+    rgba(58, 96, 115, 0.9)
   );
   box-shadow: 4px 4px 8px 0 rgba(34, 60, 80, 0.2);
 `;

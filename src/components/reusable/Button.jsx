@@ -15,7 +15,8 @@ const ButtonStyle = styled.div`
   }
 
   .left-side {
-    background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+    //background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+    background-image: ${(props) => props.color};
     //background-image: linear-gradient(to right bottom, #3a7bd5, #3a6073);
     width: 130px;
     height: 120px;
@@ -66,9 +67,9 @@ const ButtonStyle = styled.div`
     z-index: 10;
     flex-direction: column;
     align-items: center;
-    -webkit-box-shadow: 9px 9px 9px -2px rgba(77, 200, 143, 0.72);
-    -moz-box-shadow: 9px 9px 9px -2px rgba(77, 200, 143, 0.72);
-    -webkit-box-shadow: 9px 9px 9px -2px rgba(77, 200, 143, 0.72);
+    //-webkit-box-shadow: 9px 9px 9px -2px rgba(77, 200, 143, 0.72);
+    //-moz-box-shadow: 9px 9px 9px -2px rgba(77, 200, 143, 0.72);
+    //-webkit-box-shadow: 9px 9px 9px -2px rgba(77, 200, 143, 0.72);
   }
 
   .card-line {
@@ -232,22 +233,22 @@ const ButtonStyle = styled.div`
   //}
 `;
 
-const Button = ({ title, action }) => {
+const Button = ({ title, action, color }) => {
   return (
-    <ButtonStyle onClick={action}>
+    <ButtonStyle onClick={action} color={color}>
       <div className='container'>
         <div className='left-side'>
           <div className='card'>
-            <div className='card-line'></div>
-            <div className='buttons'></div>
+            <div className='card-line' />
+            <div className='buttons' />
           </div>
           <div className='post'>
-            <div className='post-line'></div>
+            <div className='post-line' />
             <div className='screen'>
               <div className='dollar'>$</div>
             </div>
-            <div className='numbers'></div>
-            <div className='numbers-line2'></div>
+            <div className='numbers' />
+            <div className='numbers-line2' />
           </div>
         </div>
         <div className='right-side'>

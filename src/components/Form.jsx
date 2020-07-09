@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
-import { addNewCard } from '../store/reducers/cardReducer';
+import { addNewCard, cancelAddNewCard } from '../store/reducers/cardReducer';
+import { useNavigate } from 'react-router-dom';
 
 const formValidation = (number, date, name, cvv, balance) => {
   try {
-    // TODO notifications
+    // TODO validation and notification
+    return true;
     if (!(number && date && name && cvv && balance)) {
       console.log('Null exception');
       return false;
     }
-    if (number.length !== 16) {
+    if (/^[0-9]{17}$/.test(number)) {
       console.log('Number error');
       return false;
     }
-    if (!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(date)) {
+    if (!/^[0-9]{2}\/[0-9]{2}$/.test(date)) {
       console.log('Date error');
       return false;
     }
@@ -23,7 +25,7 @@ const formValidation = (number, date, name, cvv, balance) => {
       console.log('Name error');
       return false;
     }
-    if (cvv.length !== 3) {
+    if (/^[0-9]{4}$/.test(cvv)) {
       console.log('CVV error');
       return false;
     }
@@ -45,6 +47,8 @@ const Form = ({ handleVisible }) => {
   const [cvv, setCvv] = useState(null);
   const [balance, setBalance] = useState(null);
   const dispatch = useDispatch();
+  const newCard = useSelector((state) => state.cards.cardCreated);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -60,6 +64,18 @@ const Form = ({ handleVisible }) => {
       );
     }
   };
+
+  useEffect(() => {
+    if (newCard !== null) {
+      navigate('/' + newCard);
+    }
+  }, [newCard, navigate]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(cancelAddNewCard());
+    };
+  }, [dispatch]);
 
   return (
     <FormStyle onSubmit={handleSubmit}>
@@ -77,7 +93,6 @@ const Form = ({ handleVisible }) => {
       <SmallInput type='text' placeholder='Expires' onChange={(e) => setDate(e.target.value)} />
       <SmallInput type='text' placeholder='CVV' onChange={(e) => setCvv(e.target.value)} />
       <SmallInput type='text' placeholder='Balance' onChange={(e) => setBalance(e.target.value)} />
-      {/*TODO redirect на новую карточку*/}
       <AddButton type='submit'>Add Card</AddButton>
     </FormStyle>
   );
@@ -115,16 +130,23 @@ const CloseButton = styled.button`
   justify-content: center;
   background-color: #fff;
   font-size: 24px;
+  cursor: pointer;
 `;
 
 const AddButton = styled.button`
-  border: 1px solid white;
+  border: none;
   border-radius: 5px;
-  padding: 5px;
-  background-color: rgb(58, 123, 213);
+  padding: 7px;
+  background-color: rgb(22, 98, 201);
   color: white;
   margin: 0 5px;
   width: calc(100% - 10px);
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(38, 106, 201);
+  }
 `;
 
 export default Form;

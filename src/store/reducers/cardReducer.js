@@ -2,25 +2,19 @@ export const LOAD_DATA = 'LOAD_DATA';
 export const CANCEL_LOAD_DATA = 'CANCEL_LOAD_DATA';
 export const PUT_DATA = 'PUT_DATA';
 export const ADD_NEW_CARD = 'ADD_NEW_CARD';
-export const SET_STATUS = 'SET_STATUS';
 export const DELETE_CARD = 'DELETE_CARD';
 export const SET_DELETED = 'SET_DELETED';
 export const NEW_TRANSACTION = 'NEW_TRANSACTION';
 export const CANCEL_ADD_NEW_CARD = 'CANCEL_ADD_NEW_CARD';
 export const CANCEL_DELETE_CARD = 'CANCEL_DELETE_CARD';
 export const CANCEL_NEW_TRANSACTION = 'CANCEL_NEW_TRANSACTION';
+export const CARD_CREATED = 'CARD_CREATED';
+export const TRANSACTION_COMPLETE = 'TRANSACTION_COMPLETE';
 
 export const putData = (dataFromServer) => {
   return {
     type: PUT_DATA,
     payload: dataFromServer,
-  };
-};
-
-export const setStatus = (status) => {
-  return {
-    type: SET_STATUS,
-    payload: status,
   };
 };
 
@@ -82,42 +76,55 @@ export const newTransaction = (data) => {
   };
 };
 
+export const setCardCreated = (data = null) => {
+  return {
+    type: CARD_CREATED,
+    payload: data,
+  };
+};
+
+export const setTransactionComplete = (data) => {
+  return {
+    type: TRANSACTION_COMPLETE,
+    payload: data,
+  };
+};
+
 const initialState = {
   data: null,
   readyToUse: false,
   wasDeleted: null,
+  cardCreated: null,
+  transactionComplete: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case PUT_DATA:
       return {
+        ...state,
         data: action.payload,
         readyToUse: true,
-        wasDeleted: state.wasDeleted,
       };
-    case SET_STATUS: {
-      if (state.data) {
-        return {
-          data: [...state.data],
-          readyToUse: action.payload,
-          wasDeleted: state.wasDeleted,
-        };
-      } else {
-        return {
-          data: null,
-          readyToUse: action.payload,
-          wasDeleted: state.wasDeleted,
-        };
-      }
-    }
-    case SET_DELETED: {
+
+    case SET_DELETED:
       return {
-        data: [...state.data],
-        readyToUse: state.readyToUse,
+        ...state,
         wasDeleted: action.payload,
       };
-    }
+
+    case CARD_CREATED:
+      return {
+        ...state,
+        cardCreated: action.payload,
+      };
+
+    case TRANSACTION_COMPLETE:
+      return {
+        ...state,
+        transactionComplete: action.payload,
+      };
+
     default:
       return state;
   }

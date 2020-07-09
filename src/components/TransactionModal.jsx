@@ -2,13 +2,22 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { newTransaction } from '../store/reducers/cardReducer';
+import {
+  cancelNewTransaction,
+  newTransaction,
+  setTransactionComplete,
+} from '../store/reducers/cardReducer';
 
 const TransactionModal = ({ id, action }) => {
   const [count, setCount] = useState('');
   const [error, setError] = useState(false);
   const card = useSelector((state) => state.cards.data.find((card) => card.id === Number(id)));
+  const complete = useSelector((state) => state.cards.transactionComplete);
   const dispatch = useDispatch();
+
+  const handleChange = (event) => {
+    setCount(event.target.value);
+  };
 
   const handleTransaction = (e) => {
     setError(false);
@@ -25,26 +34,37 @@ const TransactionModal = ({ id, action }) => {
     if (update.data.balance > count) {
       update.data.balance -= count;
       dispatch(newTransaction(update));
-      setCount('');
     } else {
       setError(true);
     }
   };
 
+  useEffect(() => {
+    if (complete) {
+      // TODO не срабатывает
+      setTransactionComplete(false);
+      action();
+    }
+  }, [action, complete]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(cancelNewTransaction());
+    };
+  }, [dispatch]);
+
   return (
     <Background>
       <TransactionModalStyle>
-        <button onClick={action}>&times;</button>
+        <CloseButton onClick={action}>&times;</CloseButton>
         <h1>Transaction: </h1>
         <form onSubmit={handleTransaction}>
-          <label>
-            Receiver: <input />
-          </label>
-          <label>
-            Count: <input onChange={(e) => setCount(e.target.value)} />
-          </label>
+          <input placeholder='Receiver' />
+          <br />
+          <input onChange={handleChange} placeholder='Amount' />
+          <br />
           {error && <span>Error</span>}
-          <button type='submit'>Send</button>
+          <SubmitButton type='submit'>Send</SubmitButton>
         </form>
       </TransactionModalStyle>
     </Background>
@@ -62,14 +82,62 @@ const Background = styled.div`
   z-index: 999;
 `;
 
+// TODO сделать стили
 const TransactionModalStyle = styled.div`
   align-self: center;
-  height: 500px;
-  width: 800px;
+  height: 380px;
+  width: 600px;
   margin: 0 auto;
-  padding: 40px;
-  border-radius: 20px;
+  padding: 20px;
+  border-radius: 5px;
   background-color: #fff;
+
+  h1 {
+    margin: 30px;
+
+    font-size: 24px;
+  }
+
+  input {
+    margin: 0 30px 20px 30px;
+    width: calc(100% - 60px);
+    padding: 20px;
+    background-color: #eee;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+  }
+`;
+
+const CloseButton = styled.button`
+  display: flex;
+  width: 30px;
+  height: 30px;
+  float: right;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  background-color: #eeeeee;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+  cursor: pointer;
+`;
+
+const SubmitButton = styled.button`
+  margin: 15px 30px 20px 30px;
+  width: calc(100% - 60px);
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(22, 98, 201);
+  color: white;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(38, 106, 201);
+  }
 `;
 
 export default TransactionModal;

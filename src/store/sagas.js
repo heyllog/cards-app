@@ -9,16 +9,15 @@ import {
   CANCEL_DELETE_CARD,
   CANCEL_NEW_TRANSACTION,
   putData,
-  setStatus,
   loadData,
   setDeleted,
+  setCardCreated,
+  setTransactionComplete,
 } from './reducers/cardReducer';
 
 function* workerLoadData() {
   const controller = new AbortController();
   try {
-    yield put(setStatus(false));
-
     const response = yield call(fetch, 'http://localhost:3001/cards', {
       signal: controller.signal,
     });
@@ -37,8 +36,7 @@ function* workerLoadData() {
 function* workerPostData(action) {
   const controller = new AbortController();
   try {
-    yield put(setStatus(false));
-    yield call(fetch, 'http://localhost:3001/cards', {
+    const response = yield call(fetch, 'http://localhost:3001/cards', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -46,7 +44,10 @@ function* workerPostData(action) {
       body: JSON.stringify(action.payload),
       signal: controller.signal,
     });
+    const json = yield response.json();
+    // TODO сначала редирект, а только потом подгружается дата
     yield put(loadData());
+    yield put(setCardCreated(json.id));
   } finally {
     if (yield cancelled()) {
       controller.abort();
@@ -57,7 +58,6 @@ function* workerPostData(action) {
 function* workerTransactions(action) {
   const controller = new AbortController();
   try {
-    yield put(setStatus(false));
     yield call(fetch, 'http://localhost:3001/cards/' + action.payload.id, {
       method: 'PUT',
       headers: {
@@ -67,6 +67,7 @@ function* workerTransactions(action) {
       signal: controller.signal,
     });
     yield put(loadData());
+    yield put(setTransactionComplete(true));
   } finally {
     if (yield cancelled()) {
       controller.abort();
@@ -77,13 +78,12 @@ function* workerTransactions(action) {
 function* workerDeleteData(action) {
   const controller = new AbortController();
   try {
-    yield put(setStatus(false));
     yield call(fetch, 'http://localhost:3001/cards/' + action.payload, {
       method: 'DELETE',
       signal: controller.signal,
     });
-    yield put(setDeleted(action.payload));
     yield put(loadData());
+    yield put(setDeleted(action.payload));
   } finally {
     if (yield cancelled()) {
       controller.abort();
