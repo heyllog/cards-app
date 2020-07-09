@@ -7,13 +7,13 @@ const CardInfo = ({ card }) => {
   // `;
 
   const formattedNumber =
-    card.number.slice(0, 4) +
+    card.number.toString().slice(0, 4) +
     ' ' +
-    card.number.slice(4, 8) +
+    card.number.toString().slice(4, 8) +
     ' ' +
-    card.number.slice(8, 12) +
+    card.number.toString().slice(8, 12) +
     ' ' +
-    card.number.slice(12);
+    card.number.toString().slice(12);
 
   return (
     <CardInfoStyle>

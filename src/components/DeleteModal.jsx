@@ -2,11 +2,18 @@ import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { cancelDeleteCard, deleteCard } from '../store/reducers/cardReducer';
+import { cancelDeleteCard, deleteCard, setDeleted } from '../store/reducers/cardReducer';
+import { useNavigate } from 'react-router-dom';
 
 const DeleteModal = ({ id, action }) => {
   const dispatch = useDispatch();
   const complete = useSelector((state) => state.cards.wasDeleted);
+  const deleted = useSelector((state) => state.cards.wasDeleted);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (deleted === id) navigate('..');
+  }, [deleted, id, navigate]);
 
   useEffect(() => {
     if (complete) action();
@@ -14,6 +21,7 @@ const DeleteModal = ({ id, action }) => {
 
   useEffect(() => {
     return () => {
+      dispatch(setDeleted(null));
       dispatch(cancelDeleteCard());
     };
   }, [dispatch]);
@@ -40,7 +48,6 @@ const Background = styled.div`
   z-index: 999;
 `;
 
-// TODO сделать стили
 const TransactionModalStyle = styled.div`
   align-self: center;
   height: 160px;

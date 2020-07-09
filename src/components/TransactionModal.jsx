@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { toast } from 'react-toastify';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -10,45 +11,45 @@ import {
 
 const TransactionModal = ({ id, action }) => {
   const [count, setCount] = useState('');
-  const [error, setError] = useState(false);
   const card = useSelector((state) => state.cards.data.find((card) => card.id === Number(id)));
   const complete = useSelector((state) => state.cards.transactionComplete);
   const dispatch = useDispatch();
 
-  const handleChange = (event) => {
+  const handleChange = useCallback((event) => {
     setCount(event.target.value);
-  };
+  }, []);
 
-  const handleTransaction = (e) => {
-    setError(false);
-    e.preventDefault();
+  const handleTransaction = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    if (isNaN(Number(count)) || count === '') {
-      setError(true);
-      return;
-    }
+      if (isNaN(Number(count)) || count === '') {
+        toast.error('Please, enter correct value');
+        return;
+      }
 
-    const update = { data: { ...card }, id: id };
-    update.data.balance = Number(update.data.balance);
+      const update = { data: { ...card }, id: id };
+      update.data.balance = Number(update.data.balance);
 
-    if (update.data.balance > count) {
-      update.data.balance -= count;
-      dispatch(newTransaction(update));
-    } else {
-      setError(true);
-    }
-  };
+      if (update.data.balance > count) {
+        update.data.balance -= count;
+        dispatch(newTransaction(update));
+      } else {
+        toast.error("You don't have enough money");
+      }
+    },
+    [count]
+  );
 
   useEffect(() => {
     if (complete) {
-      // TODO не срабатывает
-      setTransactionComplete(false);
       action();
     }
   }, [action, complete]);
 
   useEffect(() => {
     return () => {
+      dispatch(setTransactionComplete(false));
       dispatch(cancelNewTransaction());
     };
   }, [dispatch]);
@@ -63,7 +64,6 @@ const TransactionModal = ({ id, action }) => {
           <br />
           <input onChange={handleChange} placeholder='Amount' />
           <br />
-          {error && <span>Error</span>}
           <SubmitButton type='submit'>Send</SubmitButton>
         </form>
       </TransactionModalStyle>
@@ -82,7 +82,6 @@ const Background = styled.div`
   z-index: 999;
 `;
 
-// TODO сделать стили
 const TransactionModalStyle = styled.div`
   align-self: center;
   height: 380px;
@@ -94,7 +93,6 @@ const TransactionModalStyle = styled.div`
 
   h1 {
     margin: 30px;
-
     font-size: 24px;
   }
 

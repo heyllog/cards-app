@@ -9,12 +9,6 @@ import DeleteModal from './DeleteModal';
 const Buttons = ({ id }) => {
   const [transaction, setTransaction] = useState(false);
   const [acceptDelete, setAcceptDelete] = useState(false);
-  const deleted = useSelector((state) => state.cards.wasDeleted);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (deleted === id) navigate('..');
-  }, [deleted, id, navigate]);
 
   return (
     <div>

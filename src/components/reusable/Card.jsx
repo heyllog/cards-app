@@ -2,8 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const Card = ({ number, name, balance }) => {
-  const formattedNumber = '**** **** **** ' + number.slice(12);
-
   return (
     <CardStyle>
       <div className='card'>
@@ -13,20 +11,35 @@ const Card = ({ number, name, balance }) => {
             src='https://image.ibb.co/cZeFjx/little_square.png'
             alt=''
           />
-          {/*TODO форматирование номера*/}
-          <p className='card_number'>{formattedNumber}</p>
-          <div className='card__space-75'>
+          <p className='card_number'>{formatNumber(number)}</p>
+          <div className='card__space-60'>
             <span className='card__label'>Card holder</span>
-            <p className='card__info'>{name}</p>
+            <p className='card__info'>{formatName(name)}</p>
           </div>
-          <div className='card__space-25'>
+          <div className='card__space-40'>
             <span className='card__label'>Balance</span>
-            <p className='card__info'>{balance}$</p>
+            <p className='card__info'>{formatBalance.format(balance)}</p>
           </div>
         </div>
       </div>
     </CardStyle>
   );
+};
+
+const formatName = (fullName) => {
+  let formattedName = fullName.split(' ');
+  formattedName[0] = formattedName[0][0] + '. ';
+  return formattedName.join('');
+};
+
+const formatBalance = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 0,
+});
+
+const formatNumber = (number) => {
+  return '**** **** **** ' + number.toString().slice(12);
 };
 
 const CardStyle = styled.div`
@@ -101,13 +114,13 @@ const CardStyle = styled.div`
     margin-top: 30px;
   }
 
-  .card__space-75 {
-    width: 70%;
+  .card__space-60 {
+    width: 65%;
     float: left;
   }
 
-  .card__space-25 {
-    width: 30%;
+  .card__space-40 {
+    width: 35%;
     float: left;
   }
 

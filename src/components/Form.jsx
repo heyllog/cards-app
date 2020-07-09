@@ -1,44 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-
-import { addNewCard, cancelAddNewCard } from '../store/reducers/cardReducer';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-
-const formValidation = (number, date, name, cvv, balance) => {
-  try {
-    // TODO validation and notification
-    return true;
-    if (!(number && date && name && cvv && balance)) {
-      console.log('Null exception');
-      return false;
-    }
-    if (/^[0-9]{17}$/.test(number)) {
-      console.log('Number error');
-      return false;
-    }
-    if (!/^[0-9]{2}\/[0-9]{2}$/.test(date)) {
-      console.log('Date error');
-      return false;
-    }
-    if (name.length < 5) {
-      console.log('Name error');
-      return false;
-    }
-    if (/^[0-9]{4}$/.test(cvv)) {
-      console.log('CVV error');
-      return false;
-    }
-    if (Number(balance) < 0) {
-      console.log('Balance error');
-      return false;
-    }
-    return true;
-  } catch (e) {
-    console.log(e.message);
-    return false;
-  }
-};
+import {
+  number as checkNumber,
+  expirationDate as checkDate,
+  cvv as checkCvv,
+} from 'card-validator';
+import { addNewCard, cancelAddNewCard, setCardCreated } from '../store/reducers/cardReducer';
 
 const Form = ({ handleVisible }) => {
   const [number, setNumber] = useState(null);
@@ -50,29 +20,34 @@ const Form = ({ handleVisible }) => {
   const newCard = useSelector((state) => state.cards.cardCreated);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (formValidation(number, date, name, cvv, balance)) {
-      dispatch(
-        addNewCard({
-          number,
-          date,
-          name,
-          cvv,
-          balance,
-        })
-      );
-    }
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (formValidation(number, date, name, cvv, balance)) {
+        dispatch(
+          addNewCard({
+            number,
+            date,
+            name,
+            cvv,
+            balance,
+          })
+        );
+      }
+    },
+    [number, date, name, cvv, balance]
+  );
 
   useEffect(() => {
     if (newCard !== null) {
       navigate('/' + newCard);
+      handleVisible();
     }
   }, [newCard, navigate]);
 
   useEffect(() => {
     return () => {
+      dispatch(setCardCreated(null));
       dispatch(cancelAddNewCard());
     };
   }, [dispatch]);
@@ -88,14 +63,63 @@ const Form = ({ handleVisible }) => {
         &times;
       </CloseButton>
       <br />
-      <input type='text' placeholder='Number' onChange={(e) => setNumber(e.target.value)} />
-      <input type='text' placeholder='Name' onChange={(e) => setName(e.target.value)} />
-      <SmallInput type='text' placeholder='Expires' onChange={(e) => setDate(e.target.value)} />
-      <SmallInput type='text' placeholder='CVV' onChange={(e) => setCvv(e.target.value)} />
-      <SmallInput type='text' placeholder='Balance' onChange={(e) => setBalance(e.target.value)} />
+      <input
+        type='number'
+        placeholder='Number'
+        onChange={(e) => setNumber(Number(e.target.value))}
+      />
+      <input placeholder='Name' onChange={(e) => setName(e.target.value)} />
+      <SmallInput placeholder='Expires' onChange={(e) => setDate(e.target.value)} />
+      <SmallInput
+        type='number'
+        placeholder='CVV'
+        onChange={(e) => setCvv(Number(e.target.value))}
+      />
+      <SmallInput
+        type='number'
+        placeholder='Balance'
+        onChange={(e) => setBalance(Number(e.target.value))}
+      />
       <AddButton type='submit'>Add Card</AddButton>
     </FormStyle>
   );
+};
+
+const formValidation = (number, date, name, cvv, balance) => {
+  try {
+    if (!checkNumber(number).isValid) {
+      toast.error('Number error');
+      return false;
+    }
+    if (!name) {
+      toast.error('Name error');
+      return false;
+    }
+    if (typeof name !== 'string' || name.length < 5) {
+      toast.error('Name error');
+      return false;
+    }
+    if (!checkDate(date).isValid) {
+      toast.error('Date error');
+      return false;
+    }
+    if (!checkCvv(cvv.toString()).isValid) {
+      toast.error('CVV error');
+      return false;
+    }
+    if (!balance) {
+      toast.error('Balance error');
+      return false;
+    }
+    if (Number(balance) < 0) {
+      toast.error('Balance error');
+      return false;
+    }
+    return true;
+  } catch (e) {
+    toast.error(e.message);
+    return false;
+  }
 };
 
 const SmallInput = styled.input``;
@@ -110,6 +134,13 @@ const FormStyle = styled.form`
     border-radius: 5px;
     border: none;
     outline: none;
+    appearance: none;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
   }
 
   ${SmallInput} {
