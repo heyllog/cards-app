@@ -27,6 +27,7 @@ const Form = ({ handleVisible }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // Close on esc press
   const escFunction = useCallback(
     (event) => {
       if (event.keyCode === 27) {
@@ -59,12 +60,14 @@ const Form = ({ handleVisible }) => {
     [number, date, name, cvv, balance, dispatch]
   );
 
+  // After successful post request load new data to store
   useEffect(() => {
     if (newCardId !== null) {
       dispatch(loadData());
     }
   }, [newCardId, navigate, dispatch]);
 
+  // If data already loaded redirect to new card's page
   useEffect(() => {
     if (newCard) {
       navigate('/' + newCardId);
@@ -79,6 +82,12 @@ const Form = ({ handleVisible }) => {
     };
   }, [dispatch]);
 
+  const handleNumberChange = useCallback((event) => setNumber(Number(event.target.value)), []);
+  const handleNameChange = useCallback((event) => setName(event.target.value), []);
+  const handleDateChange = useCallback((event) => setDate(event.target.value), []);
+  const handleCvvChange = useCallback((event) => setCvv(Number(event.target.value)), []);
+  const handleBalanceChange = useCallback((event) => setBalance(Number(event.target.value)), []);
+
   return (
     <FormStyle onSubmit={handleSubmit}>
       <CloseButton
@@ -90,23 +99,11 @@ const Form = ({ handleVisible }) => {
         &times;
       </CloseButton>
       <br />
-      <input
-        type='number'
-        placeholder='Number'
-        onChange={(e) => setNumber(Number(e.target.value))}
-      />
-      <input placeholder='Name' onChange={(e) => setName(e.target.value)} />
-      <SmallInput placeholder='Expires' onChange={(e) => setDate(e.target.value)} />
-      <SmallInput
-        type='number'
-        placeholder='CVV'
-        onChange={(e) => setCvv(Number(e.target.value))}
-      />
-      <SmallInput
-        type='number'
-        placeholder='Balance'
-        onChange={(e) => setBalance(Number(e.target.value))}
-      />
+      <input type='number' placeholder='Number' onChange={handleNumberChange} />
+      <input placeholder='Name' onChange={handleNameChange} />
+      <SmallInput placeholder='Expires' onChange={handleDateChange} />
+      <SmallInput type='number' placeholder='CVV' onChange={handleCvvChange} />
+      <SmallInput type='number' placeholder='Balance' onChange={handleBalanceChange} />
       <AddButton type='submit'>Add Card</AddButton>
     </FormStyle>
   );

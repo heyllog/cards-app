@@ -23,28 +23,9 @@ export const loadData = () => {
     type: LOAD_DATA,
   };
 };
-
 export const cancelLoadData = () => {
   return {
     type: CANCEL_LOAD_DATA,
-  };
-};
-
-export const cancelAddNewCard = () => {
-  return {
-    type: CANCEL_ADD_NEW_CARD,
-  };
-};
-
-export const cancelDeleteCard = () => {
-  return {
-    type: CANCEL_DELETE_CARD,
-  };
-};
-
-export const cancelNewTransaction = () => {
-  return {
-    type: CANCEL_NEW_TRANSACTION,
   };
 };
 
@@ -54,6 +35,11 @@ export const addNewCard = (data) => {
     payload: data,
   };
 };
+export const cancelAddNewCard = () => {
+  return {
+    type: CANCEL_ADD_NEW_CARD,
+  };
+};
 
 export const deleteCard = (id) => {
   return {
@@ -61,11 +47,9 @@ export const deleteCard = (id) => {
     payload: id,
   };
 };
-
-export const setDeleted = (id) => {
+export const cancelDeleteCard = () => {
   return {
-    type: SET_DELETED,
-    payload: id,
+    type: CANCEL_DELETE_CARD,
   };
 };
 
@@ -73,6 +57,18 @@ export const newTransaction = (data) => {
   return {
     type: NEW_TRANSACTION,
     payload: data,
+  };
+};
+export const cancelNewTransaction = () => {
+  return {
+    type: CANCEL_NEW_TRANSACTION,
+  };
+};
+
+export const setDeleted = (id) => {
+  return {
+    type: SET_DELETED,
+    payload: id,
   };
 };
 

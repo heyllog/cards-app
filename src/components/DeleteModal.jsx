@@ -11,6 +11,7 @@ const DeleteModal = ({ id, action }) => {
   const deleted = useSelector((state) => state.cards.wasDeleted);
   const navigate = useNavigate();
 
+  // Close on esc press
   const escFunction = useCallback(
     (event) => {
       if (event.keyCode === 27) {
@@ -25,10 +26,12 @@ const DeleteModal = ({ id, action }) => {
     return () => document.removeEventListener('keydown', escFunction, false);
   }, [escFunction]);
 
+  // Go home page after delete
   useEffect(() => {
     if (deleted === id) navigate('..');
   }, [deleted, id, navigate]);
 
+  // After complete close window
   useEffect(() => {
     if (complete) action();
   }, [complete, action]);
@@ -40,11 +43,13 @@ const DeleteModal = ({ id, action }) => {
     };
   }, [dispatch]);
 
+  const handleDeletion = useCallback(() => dispatch(deleteCard(id)), [dispatch, id]);
+
   return (
     <Background>
       <TransactionModalStyle>
         <h1>Delete this card?</h1>
-        <Button onClick={() => dispatch(deleteCard(id))}>Yes, delete it</Button>
+        <Button onClick={handleDeletion}>Yes, delete it</Button>
         <Button onClick={action}>Cancel</Button>
       </TransactionModalStyle>
     </Background>

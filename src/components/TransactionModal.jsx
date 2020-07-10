@@ -9,19 +9,20 @@ import {
   setTransactionComplete,
 } from '../store/reducers/cardReducer';
 
-const TransactionModal = ({ id, action }) => {
-  const [count, setCount] = useState('');
+const TransactionModal = ({ id, action: closeWindow }) => {
+  const [amount, setAmount] = useState('');
   const card = useSelector((state) => state.cards.data.find((card) => card.id === Number(id)));
-  const complete = useSelector((state) => state.cards.transactionComplete);
+  const transactionComplete = useSelector((state) => state.cards.transactionComplete);
   const dispatch = useDispatch();
 
+  // Close on esc press
   const escFunction = useCallback(
     (event) => {
       if (event.keyCode === 27) {
-        action();
+        closeWindow();
       }
     },
-    [action]
+    [closeWindow]
   );
 
   useEffect(() => {
@@ -29,15 +30,15 @@ const TransactionModal = ({ id, action }) => {
     return () => document.removeEventListener('keydown', escFunction, false);
   }, [escFunction]);
 
-  const handleChange = useCallback((event) => {
-    setCount(event.target.value);
+  const handleAmountChange = useCallback((event) => {
+    setAmount(event.target.value);
   }, []);
 
   const handleTransaction = useCallback(
     (e) => {
       e.preventDefault();
 
-      if (isNaN(Number(count)) || count === '') {
+      if (isNaN(Number(amount)) || amount === '') {
         toast.error('Please, enter correct value');
         return;
       }
@@ -45,21 +46,22 @@ const TransactionModal = ({ id, action }) => {
       const update = { data: { ...card }, id: id };
       update.data.balance = Number(update.data.balance);
 
-      if (update.data.balance > count) {
-        update.data.balance -= count;
+      if (update.data.balance > amount) {
+        update.data.balance -= amount;
         dispatch(newTransaction(update));
       } else {
         toast.error("You don't have enough money");
       }
     },
-    [count, card, dispatch, id]
+    [amount, card, dispatch, id]
   );
 
+  // Close window after transaction complete
   useEffect(() => {
-    if (complete) {
-      action();
+    if (transactionComplete) {
+      closeWindow();
     }
-  }, [action, complete]);
+  }, [closeWindow, transactionComplete]);
 
   useEffect(() => {
     return () => {
@@ -71,12 +73,12 @@ const TransactionModal = ({ id, action }) => {
   return (
     <Background>
       <TransactionModalStyle>
-        <CloseButton onClick={action}>&times;</CloseButton>
+        <CloseButton onClick={closeWindow}>&times;</CloseButton>
         <h1>Transaction: </h1>
         <form onSubmit={handleTransaction}>
           <input placeholder='Receiver' />
           <br />
-          <input type='number' placeholder='Amount' onChange={handleChange} />
+          <input type='number' placeholder='Amount' onChange={handleAmountChange} />
           <br />
           <SubmitButton type='submit'>Send</SubmitButton>
         </form>

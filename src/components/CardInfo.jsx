@@ -2,8 +2,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const CardInfo = ({ card }) => {
-  const formattedNumber = card.number.toString().match(/.{4}/g).join(' ');
-
   return (
     <CardInfoStyle>
       <Balance>
@@ -14,7 +12,7 @@ const CardInfo = ({ card }) => {
         <h1>Card Info </h1>
         <p>
           Number: <br />
-          <span>{formattedNumber}</span>
+          <span>{formatNumber(card.number)}</span>
         </p>
         <p>
           Name: <br />
@@ -33,11 +31,14 @@ const CardInfo = ({ card }) => {
   );
 };
 
+// Formatters
 const formatBalance = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
   minimumFractionDigits: 0,
 });
+
+const formatNumber = (number) => number.toString().match(/.{4}/g).join(' ');
 
 // Styles
 const CardInfoStyle = styled.div`

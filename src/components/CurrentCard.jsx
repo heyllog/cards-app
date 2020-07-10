@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
-import Buttons from './Buttons';
+import ActionButtons from './ActionButtons';
 import CardInfo from './CardInfo';
 import Loader from '../styles/Loader';
 
@@ -29,7 +29,7 @@ const CurrentCard = () => {
         <Info>
           <CloseButton onClick={goHome}>&times;</CloseButton>
           <CardInfo card={card} />
-          <Buttons id={id} />
+          <ActionButtons id={id} />
         </Info>
       ) : (
         <NonExist>No card with ID = {id}</NonExist>

@@ -10,19 +10,11 @@
     },
     {
       "id": 1,
-      "balance": 1000,
+      "balance": 999,
       "name": "Michael Jacobs",
       "date": "07/21",
       "cvv": "101",
       "number": "5512038842384390"
-    },
-    {
-      "number": 4111111111111111,
-      "date": "11/21",
-      "name": "asfasf safas",
-      "cvv": 123,
-      "balance": 119,
-      "id": 2
     },
     {
       "number": 4111111111111111,
