@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
-import Loader from '../styles/Loader';
+import Loader from './reusable/Loader';
 import AddCard from './AddCard';
 import Card from './reusable/Card';
 
@@ -39,6 +39,10 @@ const SideBar = styled.div`
   a {
     text-decoration: none;
     color: white;
+  }
+
+  ${Loader} {
+    margin-top: calc(50vh - 40px);
   }
 `;
 

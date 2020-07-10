@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import ActionButtons from './ActionButtons';
 import CardInfo from './CardInfo';
-import Loader from '../styles/Loader';
+import Loader from './reusable/Loader';
 
 const CurrentCard = () => {
   const { id } = useParams();
@@ -49,7 +49,7 @@ const Info = styled.div`
 
 const NonExist = styled.h1`
   display: flex;
-  margin: auto auto;
+  margin: auto;
   font-size: 50px;
 `;
 
