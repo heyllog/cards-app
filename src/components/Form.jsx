@@ -27,6 +27,20 @@ const Form = ({ handleVisible }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const escFunction = useCallback(
+    (event) => {
+      if (event.keyCode === 27) {
+        handleVisible();
+      }
+    },
+    [handleVisible]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', escFunction, false);
+    return () => document.removeEventListener('keydown', escFunction, false);
+  }, [escFunction]);
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -42,21 +56,21 @@ const Form = ({ handleVisible }) => {
         );
       }
     },
-    [number, date, name, cvv, balance]
+    [number, date, name, cvv, balance, dispatch]
   );
 
   useEffect(() => {
     if (newCardId !== null) {
       dispatch(loadData());
     }
-  }, [newCardId, navigate]);
+  }, [newCardId, navigate, dispatch]);
 
   useEffect(() => {
     if (newCard) {
       navigate('/' + newCardId);
       handleVisible();
     }
-  }, [newCardId, newCard]);
+  }, [newCardId, newCard, handleVisible, navigate]);
 
   useEffect(() => {
     return () => {
@@ -112,7 +126,7 @@ const formValidation = (number, date, name, cvv, balance) => {
       toast.error('Name must be longer');
       return false;
     }
-    if (name.split(' ').length !== 2) {
+    if (name.split(' ').length < 2) {
       toast.error('Please, enter name and surname');
       return false;
     }

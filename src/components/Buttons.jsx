@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from './reusable/Button';
-import { useSelector } from 'react-redux';
 
 import TransactionModal from './TransactionModal';
-import { useNavigate } from 'react-router-dom';
 import DeleteModal from './DeleteModal';
 
 const Buttons = ({ id }) => {

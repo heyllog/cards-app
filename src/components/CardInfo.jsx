@@ -18,7 +18,7 @@ const CardInfo = ({ card }) => {
   return (
     <CardInfoStyle>
       <Balance>
-        <span>{`Balance: ${card.balance}$`}</span>
+        <span>{`Balance: ${formatBalance.format(card.balance)}`}</span>
       </Balance>
 
       <Information>
@@ -43,6 +43,12 @@ const CardInfo = ({ card }) => {
     </CardInfoStyle>
   );
 };
+
+const formatBalance = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 0,
+});
 
 const CardInfoStyle = styled.div`
   margin-right: auto;

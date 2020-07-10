@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
@@ -11,6 +11,9 @@ const CurrentCard = () => {
   const { id } = useParams();
   const cards = useSelector((state) => state.cards);
   const [card, setCard] = useState(null);
+  const navigate = useNavigate();
+
+  const goHome = useCallback(() => navigate('..'), [navigate]);
 
   useEffect(() => {
     if (cards.readyToUse) {
@@ -24,6 +27,7 @@ const CurrentCard = () => {
         <Loader />
       ) : card ? (
         <Info>
+          <CloseButton onClick={goHome}>&times;</CloseButton>
           <CardInfo card={card} />
           <Buttons id={id} />
         </Info>
@@ -46,6 +50,23 @@ const NonExist = styled.h1`
   display: flex;
   margin: auto auto;
   font-size: 50px;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  background-color: #eeeeee;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+  cursor: pointer;
 `;
 
 export default CurrentCard;

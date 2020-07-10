@@ -15,6 +15,20 @@ const TransactionModal = ({ id, action }) => {
   const complete = useSelector((state) => state.cards.transactionComplete);
   const dispatch = useDispatch();
 
+  const escFunction = useCallback(
+    (event) => {
+      if (event.keyCode === 27) {
+        action();
+      }
+    },
+    [action]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', escFunction, false);
+    return () => document.removeEventListener('keydown', escFunction, false);
+  }, [escFunction]);
+
   const handleChange = useCallback((event) => {
     setCount(event.target.value);
   }, []);
@@ -38,7 +52,7 @@ const TransactionModal = ({ id, action }) => {
         toast.error("You don't have enough money");
       }
     },
-    [count]
+    [count, card, dispatch, id]
   );
 
   useEffect(() => {

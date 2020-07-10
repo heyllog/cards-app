@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -10,6 +10,20 @@ const DeleteModal = ({ id, action }) => {
   const complete = useSelector((state) => state.cards.wasDeleted);
   const deleted = useSelector((state) => state.cards.wasDeleted);
   const navigate = useNavigate();
+
+  const escFunction = useCallback(
+    (event) => {
+      if (event.keyCode === 27) {
+        action();
+      }
+    },
+    [action]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', escFunction, false);
+    return () => document.removeEventListener('keydown', escFunction, false);
+  }, [escFunction]);
 
   useEffect(() => {
     if (deleted === id) navigate('..');
