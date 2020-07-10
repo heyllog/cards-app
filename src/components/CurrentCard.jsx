@@ -28,7 +28,7 @@ const CurrentCard = () => {
           <Buttons id={id} />
         </Info>
       ) : (
-        <h1>No card</h1>
+        <NonExist>No card with ID = {id}</NonExist>
       )}
     </>
   );
@@ -38,6 +38,14 @@ const Info = styled.div`
   display: flex;
   width: 100%;
   padding: 30px 40px;
+  height: 100vh;
+  overflow: auto;
+`;
+
+const NonExist = styled.h1`
+  display: flex;
+  margin: auto auto;
+  font-size: 50px;
 `;
 
 export default CurrentCard;

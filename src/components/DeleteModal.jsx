@@ -29,9 +29,9 @@ const DeleteModal = ({ id, action }) => {
   return (
     <Background>
       <TransactionModalStyle>
-        <h1>Are you sure? </h1>
-        <Button onClick={() => dispatch(deleteCard(id))}>Yes</Button>
-        <Button onClick={action}>No</Button>
+        <h1>Delete this card?</h1>
+        <Button onClick={() => dispatch(deleteCard(id))}>Yes, delete it</Button>
+        <Button onClick={action}>Cancel</Button>
       </TransactionModalStyle>
     </Background>
   );
@@ -50,7 +50,7 @@ const Background = styled.div`
 
 const TransactionModalStyle = styled.div`
   align-self: center;
-  height: 160px;
+  height: 220px;
   width: 400px;
   margin: 0 auto;
   padding: 40px;
@@ -60,9 +60,11 @@ const TransactionModalStyle = styled.div`
 `;
 
 const Button = styled.button`
-  margin: 25px 30px 20px 30px;
-  width: calc(50% - 60px);
+  //margin: 25px 30px 20px 30px;
+  margin-top: 20px;
+  width: calc(100% - 60px);
   padding: 10px 20px;
+  text-align: center;
   border: none;
   border-radius: 5px;
   background-color: rgb(22, 98, 201);

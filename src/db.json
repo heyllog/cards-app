@@ -17,84 +17,12 @@
       "number": "5512038842384390"
     },
     {
-      "number": "2314231423142314",
-      "date": "32/12",
-      "name": "Lans Aser",
-      "cvv": "231",
-      "balance": "3124",
-      "id": 4
-    },
-    {
-      "id": 5,
-      "balance": 1293,
-      "name": "Molly Hew",
-      "date": "11/23",
-      "cvv": "100",
-      "number": "5532013242329842"
-    },
-    {
-      "id": 6,
-      "balance": 998,
-      "name": "Michael Jacobs",
-      "date": "07/21",
-      "cvv": "101",
-      "number": "5512038842384390"
-    },
-    {
-      "number": "4111111111111111",
-      "date": "12/27",
-      "name": "Red Hat",
-      "cvv": "213",
-      "balance": "4122441",
-      "id": 7
-    },
-    {
-      "number": "4111111111111111",
-      "date": "11/23",
-      "name": "Ben Affleck",
-      "cvv": "123",
-      "balance": "4312",
-      "id": 8
-    },
-    {
-      "number": "4111111111111111",
-      "date": "12/21",
-      "name": "Fad Nafas",
-      "cvv": "123",
-      "balance": "31",
-      "id": 9
-    },
-    {
-      "number": "4111111111111111",
-      "date": "11/21",
-      "name": "Fsad Nafafd",
-      "cvv": "123",
-      "balance": "1234",
-      "id": 10
-    },
-    {
-      "number": "4111111111111111",
-      "date": "11/23",
-      "name": "sadf sdfa",
-      "cvv": "123",
-      "balance": 1996,
-      "id": 11
-    },
-    {
-      "number": "4111111111111111",
-      "date": "12/21",
-      "name": "Aasfd afdasdf",
-      "cvv": "231",
-      "balance": "1234",
-      "id": 12
-    },
-    {
       "number": 4111111111111111,
-      "date": "12/21",
-      "name": "asdfasdf",
-      "cvv": 213,
-      "balance": 122,
-      "id": 13
+      "date": "11/21",
+      "name": "asfasf safas",
+      "cvv": 123,
+      "balance": 120,
+      "id": 2
     }
   ]
 }

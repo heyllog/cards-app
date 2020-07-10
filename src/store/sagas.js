@@ -45,8 +45,6 @@ function* workerPostData(action) {
       signal: controller.signal,
     });
     const json = yield response.json();
-    // TODO сначала редирект, а только потом подгружается дата
-    yield put(loadData());
     yield put(setCardCreated(json.id));
   } finally {
     if (yield cancelled()) {

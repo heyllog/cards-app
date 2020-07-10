@@ -8,7 +8,12 @@ import {
   expirationDate as checkDate,
   cvv as checkCvv,
 } from 'card-validator';
-import { addNewCard, cancelAddNewCard, setCardCreated } from '../store/reducers/cardReducer';
+import {
+  addNewCard,
+  cancelAddNewCard,
+  loadData,
+  setCardCreated,
+} from '../store/reducers/cardReducer';
 
 const Form = ({ handleVisible }) => {
   const [number, setNumber] = useState(null);
@@ -16,8 +21,10 @@ const Form = ({ handleVisible }) => {
   const [name, setName] = useState(null);
   const [cvv, setCvv] = useState(null);
   const [balance, setBalance] = useState(null);
+
+  const newCardId = useSelector((state) => state.cards.cardCreated);
+  const newCard = useSelector((state) => state.cards.data.find((card) => card.id === newCardId));
   const dispatch = useDispatch();
-  const newCard = useSelector((state) => state.cards.cardCreated);
   const navigate = useNavigate();
 
   const handleSubmit = useCallback(
@@ -39,11 +46,17 @@ const Form = ({ handleVisible }) => {
   );
 
   useEffect(() => {
-    if (newCard !== null) {
-      navigate('/' + newCard);
+    if (newCardId !== null) {
+      dispatch(loadData());
+    }
+  }, [newCardId, navigate]);
+
+  useEffect(() => {
+    if (newCard) {
+      navigate('/' + newCardId);
       handleVisible();
     }
-  }, [newCard, navigate]);
+  }, [newCardId, newCard]);
 
   useEffect(() => {
     return () => {
@@ -92,15 +105,19 @@ const formValidation = (number, date, name, cvv, balance) => {
       return false;
     }
     if (!name) {
-      toast.error('Name error');
+      toast.error('Please, enter name');
       return false;
     }
-    if (typeof name !== 'string' || name.length < 5) {
-      toast.error('Name error');
+    if (name.length < 3) {
+      toast.error('Name must be longer');
+      return false;
+    }
+    if (name.split(' ').length !== 2) {
+      toast.error('Please, enter name and surname');
       return false;
     }
     if (!checkDate(date).isValid) {
-      toast.error('Date error');
+      toast.error('Invalid date');
       return false;
     }
     if (!checkCvv(cvv.toString()).isValid) {

@@ -62,7 +62,7 @@ const TransactionModal = ({ id, action }) => {
         <form onSubmit={handleTransaction}>
           <input placeholder='Receiver' />
           <br />
-          <input onChange={handleChange} placeholder='Amount' />
+          <input type='number' placeholder='Amount' onChange={handleChange} />
           <br />
           <SubmitButton type='submit'>Send</SubmitButton>
         </form>
@@ -104,6 +104,12 @@ const TransactionModalStyle = styled.div`
     border-radius: 5px;
     border: none;
     outline: none;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
   }
 `;
 
