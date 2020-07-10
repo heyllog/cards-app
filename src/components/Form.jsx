@@ -153,6 +153,7 @@ const formValidation = (number, date, name, cvv, balance) => {
   }
 };
 
+// Styles
 const SmallInput = styled.input``;
 
 const FormStyle = styled.form`
@@ -192,6 +193,7 @@ const CloseButton = styled.button`
   justify-content: center;
   background-color: #fff;
   font-size: 24px;
+  outline: none;
   cursor: pointer;
 `;
 

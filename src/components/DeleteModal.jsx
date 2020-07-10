@@ -64,15 +64,21 @@ const Background = styled.div`
 
 const TransactionModalStyle = styled.div`
   align-self: center;
-  height: 220px;
+  height: 260px;
   width: 400px;
   margin: 0 auto;
   padding: 40px;
   border-radius: 20px;
   background-color: #fff;
   text-align: center;
+
+  h1 {
+    margin: 10px 15px 15px 15px;
+    font-size: 24px;
+  }
 `;
 
+// Styles
 const Button = styled.button`
   //margin: 25px 30px 20px 30px;
   margin-top: 20px;

@@ -38,6 +38,7 @@ const CurrentCard = () => {
   );
 };
 
+// Styles
 const Info = styled.div`
   display: flex;
   width: 100%;

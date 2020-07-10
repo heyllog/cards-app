@@ -16,7 +16,7 @@ function App() {
     return () => dispatch(cancelLoadData());
   }, [dispatch]);
 
-  // TODO при path cards не загружает страницы при перезагрузке
+  // TODO при path cards не загружает страницы по id при перезагрузке
   let routes = useRoutes([
     {
       path: '/',

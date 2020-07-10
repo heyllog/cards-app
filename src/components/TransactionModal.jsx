@@ -85,6 +85,7 @@ const TransactionModal = ({ id, action }) => {
   );
 };
 
+// Styles
 const Background = styled.div`
   position: absolute;
   display: flex;
@@ -98,7 +99,7 @@ const Background = styled.div`
 
 const TransactionModalStyle = styled.div`
   align-self: center;
-  height: 380px;
+  height: 390px;
   width: 600px;
   margin: 0 auto;
   padding: 20px;

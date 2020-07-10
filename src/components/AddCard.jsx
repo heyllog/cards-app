@@ -17,6 +17,7 @@ const AddCard = () => {
   );
 };
 
+// Styles
 const OpenButton = styled.button`
   width: 310px;
   height: 200px;

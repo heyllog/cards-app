@@ -28,6 +28,7 @@ const CardList = () => {
   );
 };
 
+// Styles
 const SideBar = styled.div`
   background-color: #eeeeee;
   min-width: 350px;
