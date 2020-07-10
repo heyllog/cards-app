@@ -85,7 +85,7 @@ const Form = ({ handleVisible }) => {
   const handleNumberChange = useCallback((event) => setNumber(Number(event.target.value)), []);
   const handleNameChange = useCallback((event) => setName(event.target.value), []);
   const handleDateChange = useCallback((event) => setDate(event.target.value), []);
-  const handleCvvChange = useCallback((event) => setCvv(Number(event.target.value)), []);
+  const handleCvvChange = useCallback((event) => setCvv(event.target.value), []);
   const handleBalanceChange = useCallback((event) => setBalance(Number(event.target.value)), []);
 
   return (
@@ -131,7 +131,7 @@ const formValidation = (number, date, name, cvv, balance) => {
       toast.error('Invalid date');
       return false;
     }
-    if (!checkCvv(cvv.toString()).isValid) {
+    if (!checkCvv(cvv).isValid) {
       toast.error('CVV error');
       return false;
     }
