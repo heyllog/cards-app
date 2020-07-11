@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { cancelDeleteCard, deleteCard, setDeleted } from '../store/reducers/cardReducer';
+import { cancelDeleteCard, deleteCard, setDeleted } from '../../store/reducers/cardReducer';
 import { useNavigate } from 'react-router-dom';
 
 const DeleteModal = ({ id, action }) => {

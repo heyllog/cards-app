@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import Button from './reusable/Button';
+import Button from '../reusable/Button';
 import TransactionModal from './TransactionModal';
 import DeleteModal from './DeleteModal';
 

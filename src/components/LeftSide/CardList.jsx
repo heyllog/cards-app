@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 
-import Loader from './reusable/Loader';
+import Loader from '../reusable/Loader';
 import AddCard from './AddCard';
-import Card from './reusable/Card';
+import Card from '../reusable/Card';
 
 const CardList = () => {
   const cards = useSelector((state) => state.cards);

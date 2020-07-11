@@ -6,7 +6,15 @@ import { useDispatch } from 'react-redux';
 
 import { cancelLoadData, loadData } from './store/reducers/cardReducer';
 import CardsMain from './components/CardsMain';
-import CurrentCard from './components/CurrentCard';
+import CurrentCard from './components/RightSide/CurrentCard';
+
+const routesConfig = [
+  {
+    path: '/',
+    element: <CardsMain />,
+    children: [{ path: ':id', element: <CurrentCard /> }],
+  },
+];
 
 function App() {
   const dispatch = useDispatch();
@@ -17,13 +25,7 @@ function App() {
   }, [dispatch]);
 
   // TODO при path cards не загружает страницы по id при перезагрузке
-  let routes = useRoutes([
-    {
-      path: '/',
-      element: <CardsMain />,
-      children: [{ path: ':id', element: <CurrentCard /> }],
-    },
-  ]);
+  let routes = useRoutes(routesConfig);
 
   return (
     <CardApp>
@@ -50,6 +52,8 @@ const GLOBAL = css`
 
 const CardApp = styled.div`
   display: flex;
+  background-color: white;
+  justify-content: center;
 `;
 
 export default App;

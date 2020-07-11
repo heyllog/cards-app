@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from '@emotion/styled';
 
 const Card = ({ number, name, balance }) => {
+  const balanceFormatted = useMemo(() => {
+    return formatBalance.format(balance);
+  }, [balance]);
+
   return (
     <CardStyle>
       <CardPart>
         <CardSquare src='https://image.ibb.co/cZeFjx/little_square.png' alt='' />
         <CardNumber>{formatNumber(number)}</CardNumber>
-        <CardSpace60>
+        <CardSpace space={60}>
           <CardLabel>Card holder</CardLabel>
           <CardInfo>{formatName(name)}</CardInfo>
-        </CardSpace60>
-        <CardSpace40>
+        </CardSpace>
+        <CardSpace space={40}>
           <CardLabel>Balance</CardLabel>
-          <CardInfo>{formatBalance.format(balance)}</CardInfo>
-        </CardSpace40>
+          <CardInfo>{balanceFormatted}</CardInfo>
+        </CardSpace>
       </CardPart>
     </CardStyle>
   );
@@ -72,16 +76,24 @@ const CardSquare = styled.img`
   height: 30px;
 `;
 
+const paddingBase = 10;
+
 const CardNumber = styled.p`
   display: block;
   width: 100%;
+  margin-bottom: 27px;
+  margin-top: calc(${paddingBase}px * 2);
+
   word-spacing: 4px;
   font-size: 20px;
   letter-spacing: 2px;
   color: #fff;
   text-align: center;
-  margin-bottom: 27px;
-  margin-top: 30px;
+`;
+
+const CardSpace = styled.div`
+  width: ${({ space }) => space}%;
+  float: left;
 `;
 
 const CardSpace60 = styled.div`

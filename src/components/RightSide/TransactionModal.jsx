@@ -7,7 +7,7 @@ import {
   cancelNewTransaction,
   newTransaction,
   setTransactionComplete,
-} from '../store/reducers/cardReducer';
+} from '../../store/reducers/cardReducer';
 
 const TransactionModal = ({ id, action: closeWindow }) => {
   const [amount, setAmount] = useState('');
@@ -89,12 +89,12 @@ const TransactionModal = ({ id, action: closeWindow }) => {
 
 // Styles
 const Background = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   top: 0;
   left: 0;
-  min-height: 100vh;
-  min-width: 100vw;
+  right: 0;
+  bottom: 0;
   background-color: rgba(109, 108, 108, 0.6);
   z-index: 999;
 `;

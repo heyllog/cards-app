@@ -13,7 +13,7 @@ import {
   cancelAddNewCard,
   loadData,
   setCardCreated,
-} from '../store/reducers/cardReducer';
+} from '../../store/reducers/cardReducer';
 
 const Form = ({ handleVisible }) => {
   const [number, setNumber] = useState(null);
